@@ -10,6 +10,20 @@ df = pd.read_csv(csv_path, names=index, header=None)
 
 img = cv2.imread(img_path)
 
+cv2.namedWindow('image')
+cv2.setMouseCallback('image', draw_function)
+
+def draw_function(event, x, y, flags, params):
+	if event == cv2.EVENT_LBUTTONDBLCLK:
+		global b, g, r, x1, y1, clicked
+		clicked = True
+		x1 = x
+		y1 = y
+		b,g,r = img[y,x]
+		b = int(b)
+		g = int(g)
+		r = int(r)
+
 
 clicked = False
 r = g = b = x1 = y1 = 0
@@ -26,19 +40,6 @@ def get_color_name(R,G,B):
 	return cname
 
 
-def draw_function(event, x, y, flags, params):
-	if event == cv2.EVENT_LBUTTONDBLCLK:
-		global b, g, r, xpos, ypos, clicked
-		clicked = True
-		x1 = x
-		y1 = y
-		b,g,r = img[y,x]
-		b = int(b)
-		g = int(g)
-		r = int(r)
-
-cv2.namedWindow('image')
-cv2.setMouseCallback('image', draw_function)
 
 while True:
 	cv2.imshow('image', img)
