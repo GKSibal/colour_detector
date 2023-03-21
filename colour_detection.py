@@ -12,9 +12,27 @@ df = pd.read_csv(csv_path, names=index, header=None)
 img = cv2.imread(img_path)
 img = cv2.resize(img, (800,600))
 
+#function to get x,y coordinates of mouse double click
+def draw_function(event, x, y, flags, params):
+	if event == cv2.EVENT_LBUTTONDBLCLK:
+		global b, g, r, x1, y1, clicked
+		clicked = True
+		x1 = x
+		y1= y
+		b,g,r = img[y,x]
+		b = int(b)
+		g = int(g)
+		r = int(r)
+
+
+
+# creating window
+cv2.namedWindow('image')
+cv2.setMouseCallback('image', draw_function)
+
 #declaring global variables
 clicked = False
-r = g = b = x1= y1 = 0
+r = g = b = x1 = y1 = 0
 
 #function to calculate minimum distance from all colors and get the most matching color
 def get_color_name(R,G,B):
@@ -27,21 +45,7 @@ def get_color_name(R,G,B):
 
 	return cname
 
-#function to get x,y coordinates of mouse double click
-def draw_function(event, x, y, flags, params):
-	if event == cv2.EVENT_LBUTTONDBLCLK:
-		global b, g, r, x1, y1, clicked
-		clicked = True
-		x1 = x
-		y1 = y
-		b,g,r = img[y,x]
-		b = int(b)
-		g = int(g)
-		r = int(r)
 
-# creating window
-cv2.namedWindow('image')
-cv2.setMouseCallback('image', draw_function)
 while True:
 	cv2.imshow('image', img)
 	if clicked:
@@ -57,7 +61,7 @@ while True:
 		if r+g+b >=600:
 			cv2.putText(img, text, (50,50), 2,0.8, (0,0,0),2,cv2.LINE_AA)
 
-	if cv2.waitKey(20) & 0xFF == 27:
+	if cv2.waitKey(20):
 		break
 
 cv2.destroyAllWindows()
