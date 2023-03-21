@@ -30,7 +30,7 @@ def get_color_name(R,G,B):
 #function to get x,y coordinates of mouse double click
 def draw_function(event, x, y, flags, params):
 	if event == cv2.EVENT_LBUTTONDBLCLK:
-		global b, g, r, xpos, ypos, clicked
+		global b, g, r, x1, y1, clicked
 		clicked = True
 		x1 = x
 		y1 = y
